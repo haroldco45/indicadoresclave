@@ -3,50 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Análisis de Indicadores - Antioquia</title>
+    <title>Indicadores Clave | Diagnóstico</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #f8fafc; }
+        .input-field { 
+            @apply w-full border-2 border-gray-100 rounded-xl p-4 text-lg focus:border-indigo-500 focus:bg-white outline-none transition-all bg-gray-50;
+        }
+        label { @apply block text-xs font-bold text-gray-400 uppercase mb-2 tracking-widest; }
+    </style>
 </head>
-<body class="bg-gray-100 min-h-screen font-sans">
+<body class="flex items-center justify-center min-h-screen p-4">
 
-    <div class="container mx-auto px-4 py-10 max-w-2xl">
-        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-200">
-            <div class="bg-indigo-700 p-8 text-white text-center">
-                <h1 class="text-2xl font-bold tracking-tight">DIAGNÓSTICO COMERCIAL</h1>
-                <p class="text-indigo-100 text-sm mt-1">Sector Consumo Masivo | Antioquia, CO</p>
-            </div>
+    <div class="w-full max-w-lg bg-white rounded-[2.5rem] shadow-2xl shadow-indigo-100 overflow-hidden border border-gray-100">
+        <div class="bg-indigo-600 p-8 text-center">
+            <h1 class="text-white text-xl font-black tracking-tighter uppercase">Panel de Control</h1>
+            <p class="text-indigo-200 text-xs font-medium uppercase mt-1 tracking-widest">Antioquia | Consumo Masivo</p>
+        </div>
 
-            <div class="p-8 space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="p-8 md:p-10 space-y-6">
+            <div class="grid grid-cols-1 gap-6">
+                
+                <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Clientes Impactados</label>
-                        <input type="number" id="cli_impactados" class="w-full border-2 border-gray-100 rounded-xl p-3 focus:border-indigo-500 outline-none transition" value="648">
+                        <label>Clientes Impactados</label>
+                        <input type="number" id="cli_impactados" class="input-field" placeholder="0">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Ventas (Antes IVA)</label>
-                        <input type="number" id="ventas_netas" class="w-full border-2 border-gray-100 rounded-xl p-3 focus:border-indigo-500 outline-none transition" value="961541428">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Clientes Nuevos</label>
-                        <input type="number" id="cli_nuevos" class="w-full border-2 border-gray-100 rounded-xl p-3 focus:border-indigo-500 outline-none transition" value="41">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Referencias Pedidas</label>
-                        <input type="number" id="ref_pedidas" class="w-full border-2 border-gray-100 rounded-xl p-3 focus:border-indigo-500 outline-none transition" value="873">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Ref. No Despachadas</label>
-                        <input type="number" id="ref_fallidas" class="w-full border-2 border-gray-100 rounded-xl p-3 focus:border-indigo-500 outline-none transition" value="209">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Días Mora Cartera</label>
-                        <input type="number" id="mora_cartera" class="w-full border-2 border-gray-100 rounded-xl p-3 focus:border-indigo-500 outline-none transition" value="33">
+                        <label>Ventas (Antes IVA)</label>
+                        <input type="number" id="ventas_netas" class="input-field" placeholder="$">
                     </div>
                 </div>
 
-                <button onclick="analizarYEnviar()" class="w-full bg-green-600 hover:bg-green-700 text-white font-extrabold py-4 rounded-2xl shadow-lg transform active:scale-95 transition flex items-center justify-center gap-3">
-                    <span>GENERAR ANÁLISIS Y ENVIAR WHATSAPP</span>
-                </button>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label>Clientes Nuevos</label>
+                        <input type="number" id="cli_nuevos" class="input-field" placeholder="0">
+                    </div>
+                    <div>
+                        <label>Ref. Pedidas</label>
+                        <input type="number" id="ref_pedidas" class="input-field" placeholder="0">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label>Ref. No Despachadas</label>
+                        <input type="number" id="ref_fallidas" class="input-field" placeholder="0">
+                    </div>
+                    <div>
+                        <label>Días Mora Cartera</label>
+                        <input type="number" id="mora_cartera" class="input-field" placeholder="0">
+                    </div>
+                </div>
+
             </div>
+
+            <button onclick="analizarYEnviar()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-black py-5 rounded-2xl shadow-lg shadow-emerald-100 transform active:scale-[0.98] transition-all flex items-center justify-center gap-3 text-sm tracking-widest">
+                ENVIAR ANÁLISIS ESTRATÉGICO
+            </button>
         </div>
     </div>
 
@@ -54,51 +69,43 @@
         function analizarYEnviar() {
             const tel = "573117700431";
             
-            // Captura de datos
             const d = {
-                impactados: parseInt(document.getElementById('cli_impactados').value),
-                ventas: parseInt(document.getElementById('ventas_netas').value),
-                nuevos: parseInt(document.getElementById('cli_nuevos').value),
-                pedidas: parseInt(document.getElementById('ref_pedidas').value),
-                fallidas: parseInt(document.getElementById('ref_fallidas').value),
-                mora: parseInt(document.getElementById('mora_cartera').value)
+                impactados: parseInt(document.getElementById('cli_impactados').value) || 0,
+                ventas: parseInt(document.getElementById('ventas_netas').value) || 0,
+                nuevos: parseInt(document.getElementById('cli_nuevos').value) || 0,
+                pedidas: parseInt(document.getElementById('ref_pedidas').value) || 0,
+                fallidas: parseInt(document.getElementById('ref_fallidas').value) || 0,
+                mora: parseInt(document.getElementById('mora_cartera').value) || 0
             };
 
-            // Cálculos
-            const nivelServicio = ((1 - (d.fallidas / d.pedidas)) * 100).toFixed(1);
-            const crecimientoCli = ((d.nuevos / d.impactados) * 100).toFixed(1);
+            const nivelServicio = d.pedidas > 0 ? ((1 - (d.fallidas / d.pedidas)) * 100).toFixed(1) : 0;
             
-            // Lógica de Diagnóstico vs Promedios Antioquia
             let diagnostico = "";
-            let critica = "";
+            let recomendaciones = "";
 
-            // Comparación Nivel de Servicio (Promedio Sector Antioquia: 88-90%)
-            if (nivelServicio < 85) {
-                diagnostico += "❌ NIVEL DE SERVICIO CRÍTICO: Estás en " + nivelServicio + "%, muy por debajo del estándar de Antioquia (90%). Estás perdiendo ventas por logística.%0A";
-                critica += "- Revisar quiebres de stock inmediatamente.%0A";
+            // Lógica de Análisis (Comparativa Sector Antioquia)
+            if (nivelServicio < 88) {
+                diagnostico += "❌ NIVEL DE SERVICIO: " + nivelServicio + "% (Crítico vs 90% del sector).%0A";
+                recomendaciones += "- Revisar logística y quiebres de inventario.%0A";
             } else {
-                diagnostico += "✅ SERVICIO: Buen desempeño logístico.%0A";
+                diagnostico += "✅ NIVEL DE SERVICIO: " + nivelServicio + "% (Óptimo).%0A";
             }
 
-            // Comparación Mora (Promedio Sector: 28-30 días)
             if (d.mora > 30) {
-                diagnostico += "⚠️ CARTERA EN RIESGO: Tus " + d.mora + " días superan el promedio saludable (30 días). Riesgo de flujo de caja.%0A";
-                critica += "- Aplicar cobro preventivo a los 25 días.%0A";
+                diagnostico += "⚠️ MORA: " + d.mora + " días (Excede el promedio de 28-30 días).%0A";
+                recomendaciones += "- Ajustar política de crédito y cobranza.%0A";
+            } else {
+                diagnostico += "✅ CARTERA: " + d.mora + " días (Sana).%0A";
             }
 
-            // Comparación Ventas/Clientes
-            diagnostico += "📈 CRECIMIENTO: Captación de clientes nuevos al " + crecimientoCli + "%.%0A";
-
-            // Construcción del Mensaje
-            const mensaje = `*ANÁLISIS ESTRATÉGICO - DISTRIBUCIÓN*%0A` +
-                          `📍 *Zona:* Antioquia, Colombia%0A%0A` +
-                          `📊 *CIFRAS ACTUALES:*%0A` +
+            const mensaje = `*REPORTE ESTRATÉGICO ANTIOQUIA*%0A%0A` +
+                          `📊 *CIFRAS CLAVE:*%0A` +
                           `- Ventas: $${d.ventas.toLocaleString()}%0A` +
-                          `- Nivel Servicio: ${nivelServicio}%%0A` +
-                          `- Mora: ${d.mora} días%0A%0A` +
-                          `🔍 *DIAGNÓSTICO VS SECTOR:*%0A${diagnostico}%0A` +
-                          `💡 *RECOMENDACIONES:*%0A${critica}%0A` +
-                          `_Generado por Sistema de Indicadores Clave_`;
+                          `- Clientes Impactados: ${d.impactados}%0A` +
+                          `- Clientes Nuevos: ${d.nuevos}%0A%0A` +
+                          `🔍 *DIAGNÓSTICO:*%0A${diagnostico}%0A` +
+                          `💡 *RECOMENDACIONES:*%0A${recomendaciones || "- Mantener ritmo actual.%0A"}%0A` +
+                          `_Enviado desde Panel Indicadores Clave_`;
 
             window.open(`https://wa.me/${tel}?text=${mensaje}`, '_blank');
         }
