@@ -1,1 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Indicadores Clave</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .card { transition: all 0.3s ease; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
 
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl font-bold text-blue-700">Tablero de Control: Indicadores Clave</h1>
+            <p class="text-gray-500 mt-2">Monitoreo de gestión comercial y logística</p>
+        </header>
+
+        <div class="bg-white p-6 rounded-xl shadow-md mb-8">
+            <h2 class="text-xl font-semibold mb-4 border-b pb-2">Ingreso de Datos</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Clientes Impactados</label>
+                    <input type="number" id="cli_impactados" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Ventas (Antes de IVA)</label>
+                    <input type="number" id="ventas_netas" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Clientes Nuevos</label>
+                    <input type="number" id="cli_nuevos" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Referencias Pedidas</label>
+                    <input type="number" id="ref_pedidas" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Ref. No Despachadas / Incompletas</label>
+                    <input type="number" id="ref_fallidas" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Promedio Mora Cartera (Días)</label>
+                    <input type="number" id="mora_cartera" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+            </div>
+            <div class="mt-6">
+                <button onclick="generarResumen()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 shadow-lg">
+                    Generar Resumen para Análisis
+                </button>
+            </div>
+        </div>
+
+        <div id="seccion_resumen" class="hidden animate-fade-in">
+            <h2 class="text-xl font-semibold mb-4">Resumen Generado</h2>
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                <p class="text-sm text-blue-700 italic">Copia el siguiente texto y pégalo en el chat de Gemini para recibir tu análisis estratégico.</p>
+            </div>
+            
+            <div id="texto_analisis" class="bg-gray-100 p-6 rounded-lg border border-gray-300 font-mono text-sm whitespace-pre-wrap mb-6">
+                </div>
+        </div>
+    </div>
+
+    <script>
+        function generarResumen() {
+            const data = {
+                impactados: document.getElementById('cli_impactados').value || 0,
+                ventas: document.getElementById('ventas_netas').value || 0,
+                nuevos: document.getElementById('cli_nuevos').value || 0,
+                pedidas: document.getElementById('ref_pedidas').value || 0,
+                fallidas: document.getElementById('ref_fallidas').value || 0,
+                mora: document.getElementById('mora_cartera').value || 0
+            };
+
+            const efectividad = data.pedidas > 0 ? (((data.pedidas - data.fallidas) / data.pedidas) * 100).toFixed(1) : 0;
+
+            const texto = `Hola Gemini, analiza estos indicadores clave de mi gestión:\n\n` +
+                          `1. Clientes Impactados: ${data.impactados}\n` +
+                          `2. Ventas antes de IVA: $${Number(data.ventas).toLocaleString()}\n` +
+                          `3. Clientes Nuevos: ${data.nuevos}\n` +
+                          `4. Referencias Pedidas: ${data.pedidas}\n` +
+                          `5. Referencias No Despachadas/Incompletas: ${data.fallidas} (Nivel de Servicio: ${efectividad}%)\n` +
+                          `6. Promedio de Mora en Cartera: ${data.mora} días\n\n` +
+                          `Por favor, dame un diagnóstico de la situación actual, puntos críticos y recomendaciones.`;
+
+            document.getElementById('texto_analisis').innerText = texto;
+            document.getElementById('seccion_resumen').classList.remove('hidden');
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>
