@@ -3,34 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Indicadores Clave | Diagnóstico</title>
+    <title>Indicadores Clave | ASETEC HM</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #f8fafc; }
+        body { background-color: #f1f5f9; }
         .input-field { 
             @apply w-full border-2 border-gray-100 rounded-xl p-4 text-lg focus:border-indigo-500 focus:bg-white outline-none transition-all bg-gray-50;
         }
-        label { @apply block text-xs font-bold text-gray-400 uppercase mb-2 tracking-widest; }
+        label { @apply block text-xs font-bold text-gray-500 uppercase mb-2 tracking-widest; }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4">
+<body class="min-h-screen flex flex-col items-center p-4">
 
-    <div class="w-full max-w-lg bg-white rounded-[2.5rem] shadow-2xl shadow-indigo-100 overflow-hidden border border-gray-100">
-        <div class="bg-indigo-600 p-8 text-center">
-            <h1 class="text-white text-xl font-black tracking-tighter uppercase">Panel de Control</h1>
-            <p class="text-indigo-200 text-xs font-medium uppercase mt-1 tracking-widest">Antioquia | Consumo Masivo</p>
+    <div class="w-full max-w-lg bg-white rounded-[2.5rem] shadow-2xl overflow-hidden border border-gray-100 mt-6">
+        
+        <div class="p-8 text-center bg-white border-b border-gray-50">
+            <div class="flex justify-center mb-4">
+                <img src="./asetech.PNG" alt="Logo ASETEC HM" class="h-32 w-auto object-contain">
+            </div>
+            <h1 class="text-indigo-900 text-xl font-black uppercase tracking-tighter">Panel de Gestión</h1>
+            <p class="text-gray-400 text-[10px] font-bold uppercase tracking-[0.2em] mt-1">Antioquia | Consumo Masivo</p>
         </div>
 
-        <div class="p-8 md:p-10 space-y-6">
-            <div class="grid grid-cols-1 gap-6">
-                
+        <div class="p-8 space-y-6">
+            <div class="grid grid-cols-1 gap-5">
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label>Clientes Impactados</label>
                         <input type="number" id="cli_impactados" class="input-field" placeholder="0">
                     </div>
                     <div>
-                        <label>Ventas (Antes IVA)</label>
+                        <label>Ventas Antes IVA</label>
                         <input type="number" id="ventas_netas" class="input-field" placeholder="$">
                     </div>
                 </div>
@@ -56,12 +59,19 @@
                         <input type="number" id="mora_cartera" class="input-field" placeholder="0">
                     </div>
                 </div>
-
             </div>
 
-            <button onclick="analizarYEnviar()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-black py-5 rounded-2xl shadow-lg shadow-emerald-100 transform active:scale-[0.98] transition-all flex items-center justify-center gap-3 text-sm tracking-widest">
-                ENVIAR ANÁLISIS ESTRATÉGICO
+            <button onclick="analizarYEnviar()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-black py-5 rounded-2xl shadow-lg shadow-emerald-100 transform active:scale-95 transition-all flex items-center justify-center gap-3 text-xs tracking-widest uppercase">
+                Enviar Análisis a WhatsApp
             </button>
+        </div>
+
+        <div class="bg-gray-50 p-6 text-center border-t border-gray-100">
+            <p class="text-gray-700 text-[12px] font-black uppercase tracking-widest">
+                App desarrollada por <span class="text-indigo-600">VIBRAS POSITIVAS</span>
+            </p>
+            <p class="text-gray-500 text-[10px] font-bold mt-1">DERECHOS DE AUTOR © 2026</p>
+            <p class="text-gray-600 text-[10px] font-bold mt-1 tracking-tighter">CONTACTO: 3117700431</p>
         </div>
     </div>
 
@@ -83,29 +93,30 @@
             let diagnostico = "";
             let recomendaciones = "";
 
-            // Lógica de Análisis (Comparativa Sector Antioquia)
             if (nivelServicio < 88) {
-                diagnostico += "❌ NIVEL DE SERVICIO: " + nivelServicio + "% (Crítico vs 90% del sector).%0A";
-                recomendaciones += "- Revisar logística y quiebres de inventario.%0A";
+                diagnostico += "❌ NIVEL DE SERVICIO: " + nivelServicio + "% (Bajo el estándar del 90%).%0A";
+                recomendaciones += "- Urgente: Revisar quiebres de stock y logística.%0A";
             } else {
-                diagnostico += "✅ NIVEL DE SERVICIO: " + nivelServicio + "% (Óptimo).%0A";
+                diagnostico += "✅ NIVEL DE SERVICIO: " + nivelServicio + "% (Eficiente).%0A";
             }
 
             if (d.mora > 30) {
-                diagnostico += "⚠️ MORA: " + d.mora + " días (Excede el promedio de 28-30 días).%0A";
-                recomendaciones += "- Ajustar política de crédito y cobranza.%0A";
+                diagnostico += "⚠️ MORA: " + d.mora + " días (Promedio sector Antioquia es 28).%0A";
+                recomendaciones += "- Iniciar gestión de cobro inmediata.%0A";
             } else {
                 diagnostico += "✅ CARTERA: " + d.mora + " días (Sana).%0A";
             }
 
-            const mensaje = `*REPORTE ESTRATÉGICO ANTIOQUIA*%0A%0A` +
-                          `📊 *CIFRAS CLAVE:*%0A` +
+            // Mensaje de WhatsApp con créditos incluidos
+            const mensaje = `*REPORTE ESTRATÉGICO - ASETEC HM*%0A%0A` +
+                          `📊 *GESTIÓN COMERCIAL:*%0A` +
                           `- Ventas: $${d.ventas.toLocaleString()}%0A` +
-                          `- Clientes Impactados: ${d.impactados}%0A` +
-                          `- Clientes Nuevos: ${d.nuevos}%0A%0A` +
+                          `- Impacto: ${d.impactados} clientes%0A%0A` +
                           `🔍 *DIAGNÓSTICO:*%0A${diagnostico}%0A` +
-                          `💡 *RECOMENDACIONES:*%0A${recomendaciones || "- Mantener ritmo actual.%0A"}%0A` +
-                          `_Enviado desde Panel Indicadores Clave_`;
+                          `💡 *RECOMENDACIONES:*%0A${recomendaciones || "- Continuar con el modelo de gestión actual.%0A"}%0A` +
+                          `--------------------------%0A` +
+                          `🚀 *App desarrollada por Vibras Positivas*%0A` +
+                          `© Derechos de Autor (Contacto: 3117700431)`;
 
             window.open(`https://wa.me/${tel}?text=${mensaje}`, '_blank');
         }
